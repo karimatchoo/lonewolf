@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYDROBLT Landing Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: black;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .center-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        #message {
+            font-size: 2em;
+            margin-bottom: 20px;
+            animation: flash-text 0.5s alternate infinite;
+        }
+        @keyframes flash-text {
+            from {opacity: 1;}
+            to {opacity: 0.4;}
+        }
+        #lightning {
+            font-size: 6em;
+            opacity: 0;
+            animation: none;
+        }
+        .flash {
+            animation: flash 0.2s forwards;
+        }
+        @keyframes flash {
+            0% {background-color: white;}
+            100% {background-color: transparent;}
+        }
+        #hydroblt {
+            font-size: 4em;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .waitlist {
+            margin-top: 40px;
+        }
+        .waitlist input[type="email"] {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: none;
+        }
+        .waitlist button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #ffd700;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <video class="background-video" autoplay muted loop>
+        <source src="background.mp4" type="video/mp4">
+    </video>
+    <div class="center-container">
+        <div id="message"></div>
+        <div id="lightning">⚡</div>
+        <div id="hydroblt">HYDROBLT</div>
+        <div class="waitlist" id="waitlist" style="display:none">
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Join the Waiting List</button>
+            </form>
+        </div>
+    </div>
+    <audio id="thunder-sound" src="https://www.soundjay.com/nature/thunder1.mp3" preload="auto"></audio>
+    <script>
+        const messages = [
+            "Thunder in the background",
+            "Recovery",
+            "Hydration",
+            "20 grams of protein",
+            "Packed in one tiny shot"
+        ];
+        let index = 0;
+        const messageEl = document.getElementById('message');
+        const lightningEl = document.getElementById('lightning');
+        const hydrobltEl = document.getElementById('hydroblt');
+        const waitlistEl = document.getElementById('waitlist');
+        const thunderSound = document.getElementById('thunder-sound');
+
+        function showNextMessage() {
+            if (index < messages.length) {
+                messageEl.textContent = messages[index];
+                index++;
+            } else if (index === messages.length) {
+                document.body.classList.add('flash');
+                lightningEl.style.opacity = 1;
+                thunderSound.play();
+                setTimeout(() => {
+                    lightningEl.style.opacity = 0;
+                    document.body.classList.remove('flash');
+                    hydrobltEl.style.opacity = 1;
+                    waitlistEl.style.display = 'block';
+                }, 500);
+                index++;
+            }
+        }
+        showNextMessage();
+        setInterval(showNextMessage, 2000);
+    </script>
+</body>
+</html>
